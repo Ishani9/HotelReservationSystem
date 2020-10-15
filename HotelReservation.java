@@ -1,14 +1,14 @@
 package com.bl.assignment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HotelReservation {
-	
-	List<Hotel> hotelList;
-	
+	public HashMap<String, Hotel> hotelMap;
+
 	public HotelReservation() {
-		hotelList = new ArrayList<>();
+		hotelMap = new HashMap<>();
 	}
 	
 	/**
@@ -17,19 +17,20 @@ public class HotelReservation {
 	 * @param name
 	 * @param regularWeekday
 	 */
-	public void addHotel(String name, int regularWeekday, int regularWeekEnd) {
-		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd);
-		hotelList.add(hotel);
+	public void addHotel(String name, int regularWeekday) {
+		Hotel hotel = new Hotel(name, regularWeekday);
+		hotelMap.put(name, hotel);
 	}
+	
 	
 	/**
 	 * PRINT
 	 * 
 	 */
 	public void printHotels() {
-		for(Hotel hotel : hotelList) {
-			System.out.println("Rate for Hotel " + hotel.getName() + " for regular customer for weekday is : " 
-							+ hotel.getRegularWeekday() + " and for weekend is : " + hotel.getRegularWeekEnd());
+		for (HashMap.Entry<String, Hotel> entry : hotelMap.entrySet()) {
+			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer for weekday is : " 
+									+ entry.getValue().getRegularWeekday());
 			System.out.println("");
 		}
 	}
@@ -40,6 +41,6 @@ public class HotelReservation {
 	 * @return
 	 */
 	public Integer size() {
-		return hotelList.size();
+		return hotelMap.size();
 	}
 }
