@@ -21,8 +21,8 @@ public class HotelReservation {
 	 * @param name
 	 * @param regularWeekday
 	 */
-	public void addHotel(String name, int regularWeekday) {
-		Hotel hotel = new Hotel(name, regularWeekday);
+	public void addHotel(String name, int regularWeekday, int regularWeekEnd) {
+		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd);
 		hotelMap.put(name, hotel);
 	}
 	
@@ -41,9 +41,9 @@ public class HotelReservation {
         int ridgeWoodCost = 0;
         String cheapestHotel = null;
         
-        lakeWoodCost = numDays * 110;
-        bridgeWoodCost = numDays * 160;
-        ridgeWoodCost = numDays * 220;
+        lakeWoodCost = numDays * hotelMap.get("Lakewood").getRegularWeekday();
+        bridgeWoodCost = numDays * hotelMap.get("Bridgewood").getRegularWeekday();
+        ridgeWoodCost = numDays * hotelMap.get("Ridgewood").getRegularWeekday();
         
         int minCost = Math.min(lakeWoodCost, Math.min(bridgeWoodCost, ridgeWoodCost));
         if (minCost == lakeWoodCost) 
@@ -81,7 +81,7 @@ public class HotelReservation {
 	public void printHotels() {
 		for (HashMap.Entry<String, Hotel> entry : hotelMap.entrySet()) {
 			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer for weekday is : " 
-									+ entry.getValue().getRegularWeekday());
+									+ entry.getValue().getRegularWeekday() + " and for weekend is : " + entry.getValue().getRegularWeekEnd());
 			System.out.println("");
 		}
 	}
