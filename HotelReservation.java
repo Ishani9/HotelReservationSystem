@@ -23,8 +23,8 @@ public class HotelReservation {
 	 * @param name
 	 * @param regularWeekday
 	 */
-	public void addHotel(String name, int regularWeekday, int regularWeekEnd) {
-		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd);
+	public void addHotel(String name, int regularWeekday, int regularWeekEnd, int ratings) {
+		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd, ratings);
 		hotelMap.put(name, hotel);
 	}
 	
@@ -100,7 +100,7 @@ public class HotelReservation {
 		for (HashMap.Entry<String, Hotel> entry : hotelMap.entrySet()) {
 			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer \nfor weekday is : " 
 									+ entry.getValue().getRegularWeekday() + " \nand for weekend is : " + entry.getValue().getRegularWeekEnd());
-			//System.out.println("Ratings : "+ entry.getValue().getRatings() + "\n");
+			System.out.println("Ratings : "+ entry.getValue().getRatings() + "\n");
 			System.out.println();
 		}
 	}
@@ -113,4 +113,9 @@ public class HotelReservation {
 	public Integer size() {
 		return hotelMap.size();
 	}
+	
+	public Integer rating(String hotel) {
+		return hotelMap.get(hotel).getRatings();
+	}
+	
 }

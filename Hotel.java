@@ -5,11 +5,14 @@ public class Hotel {
 	public String name;
 	public int regularWeekday;
 	public int regularWeekEnd;
+	public int ratings;
+	
 
-	public Hotel(String name, int regularWeekday, int regularWeekEnd) {
+	public Hotel(String name, int regularWeekday, int regularWeekEnd, int ratings) {
 		this.name = name;
 		this.regularWeekday = regularWeekday;
 		this.regularWeekEnd = regularWeekEnd;
+		this.ratings = ratings;
 	}
 
 	public String getName() {
@@ -36,7 +39,13 @@ public class Hotel {
 		this.regularWeekEnd = regularWeekEnd;
 	}
 
-	
+	public int getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(int ratings) {
+		this.regularWeekEnd = ratings;
+	}
 	
 
 }
