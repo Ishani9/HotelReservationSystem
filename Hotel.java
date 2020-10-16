@@ -6,9 +6,10 @@ public class Hotel {
 	public int regularWeekday;
 	public int regularWeekEnd;
 
-	public Hotel(String name, int regularWeekday) {
+	public Hotel(String name, int regularWeekday, int regularWeekEnd) {
 		this.name = name;
 		this.regularWeekday = regularWeekday;
+		this.regularWeekEnd = regularWeekEnd;
 	}
 
 	public String getName() {
@@ -26,6 +27,15 @@ public class Hotel {
 	public void setRegularWeekday(int regularWeekday) {
 		this.regularWeekday = regularWeekday;
 	}
+	
+	public int getRegularWeekEnd() {
+		return regularWeekEnd;
+	}
+
+	public void setRegularWeekEnd(int regularWeekEnd) {
+		this.regularWeekEnd = regularWeekEnd;
+	}
+
 	
 	
 
