@@ -1,8 +1,10 @@
 package com.bl.assignment;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,16 +37,15 @@ public class HotelReservation {
 	 */
 	public String cheapestHotel(String fromDate, String toDate) {
 		
-		int numDays = numberOfDays( fromDate, toDate);
+		int[] numDays = numberOfDays( fromDate, toDate);
 		int lakeWoodCost = 0;
         int bridgeWoodCost = 0;
         int ridgeWoodCost = 0;
         String cheapestHotel = null;
         
-        lakeWoodCost = numDays * hotelMap.get("Lakewood").getRegularWeekday();
-        bridgeWoodCost = numDays * hotelMap.get("Bridgewood").getRegularWeekday();
-        ridgeWoodCost = numDays * hotelMap.get("Ridgewood").getRegularWeekday();
-        
+        lakeWoodCost = (numDays[0] * hotelMap.get("Lakewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Lakewood").getRegularWeekEnd());
+        bridgeWoodCost = (numDays[0] * hotelMap.get("Bridgewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Bridgewood").getRegularWeekEnd());
+        ridgeWoodCost = (numDays[0] * hotelMap.get("Ridgewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Ridgewood").getRegularWeekEnd());
         int minCost = Math.min(lakeWoodCost, Math.min(bridgeWoodCost, ridgeWoodCost));
         if (minCost == lakeWoodCost) 
         	cheapestHotel = "Lakewood";
@@ -52,24 +53,41 @@ public class HotelReservation {
         	cheapestHotel = "Bridgewood";   			
         if (minCost == ridgeWoodCost) 
         	cheapestHotel = "Ridgewood";
-		System.out.println("Cheapest Hotel : " + cheapestHotel + "  Total Rent : " + minCost);
+		System.out.println("Cheapest Hotel : " + cheapestHotel + "\nTotal Rent : " + minCost);
 		System.out.println();
+		
 		return cheapestHotel;
 	}
 
 
 	
-	public int numberOfDays(String fromDate, String toDate) {
+	public int[] numberOfDays(String fromDate, String toDate) {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
 		LocalDate date1 = LocalDate.parse(fromDate, dtf);
 		LocalDate date2 = LocalDate.parse(toDate, dtf);
-		int numOfDays = 0;
-		//Long daysBetween = Duration.between(date1, date2).toDays();
-		//int days = daysBetween.intValue();
+		int numOfWeekDays = 0;
+		int numOfWeekEnds = 0;
+		int[] numOfDays = new int[2];
 		for (LocalDate date = date1; date.isBefore(date2); date = date.plusDays(1)) {
-			numOfDays++;
+			DayOfWeek day = DayOfWeek.of(date.get(ChronoField.DAY_OF_WEEK));
+			switch (day) {
+			case SATURDAY:
+				numOfWeekEnds++;
+				break;
+			case SUNDAY:
+				numOfWeekEnds++;
+				break;
+			default:
+				numOfWeekDays++;
+				break;
+			}
 		}
-		numOfDays++;
+		if (numOfWeekEnds >= 1 && numOfWeekDays <= 1)
+			numOfWeekEnds++;
+		if(numOfWeekDays >= 1 && numOfWeekEnds <= 1)
+			numOfWeekDays++;
+		numOfDays[0] = numOfWeekDays;
+		numOfDays[1] = numOfWeekEnds;
 		return numOfDays;
 	}
 
@@ -80,9 +98,10 @@ public class HotelReservation {
 	 */
 	public void printHotels() {
 		for (HashMap.Entry<String, Hotel> entry : hotelMap.entrySet()) {
-			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer for weekday is : " 
-									+ entry.getValue().getRegularWeekday() + " and for weekend is : " + entry.getValue().getRegularWeekEnd());
-			System.out.println("");
+			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer \nfor weekday is : " 
+									+ entry.getValue().getRegularWeekday() + " \nand for weekend is : " + entry.getValue().getRegularWeekEnd());
+			//System.out.println("Ratings : "+ entry.getValue().getRatings() + "\n");
+			System.out.println();
 		}
 	}
 	

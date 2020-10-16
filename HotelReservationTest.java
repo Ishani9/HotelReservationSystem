@@ -44,5 +44,18 @@ public class HotelReservationTest {
 
 		assertEquals("Lakewood", hotelReservation.cheapestHotel("10 Sep 2020", "22 Sep 2020"));
 	}
+	
+	/**
+	 * UC 4
+	 * 
+	 */
+	@Test
+	public void whenCheapestMethodWithWeekdayAndWeekendCalled_shouldReturn_nameOfCheapestHotels() {
+		HotelReservation hotelReservation = new HotelReservation();
+		hotelReservation.addHotel("Lakewood", 110, 90);
+		hotelReservation.addHotel("Bridgewood", 160, 40);
+		hotelReservation.addHotel("Ridgewood", 220, 150);
+		assertEquals("Bridgewood", hotelReservation.cheapestHotel("11 Sep 2020", "13 Sep 2020"));
+	}
 
 }
