@@ -143,9 +143,11 @@ public class HotelReservation {
 	 */
 	public void printHotels() {
 		for (HashMap.Entry<String, Hotel> entry : hotelMap.entrySet()) {
-			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer \nfor weekday is : " 
-									+ entry.getValue().getRegularWeekday() + " \nand for weekend is : " + entry.getValue().getRegularWeekEnd());
-			System.out.println("Ratings : "+ entry.getValue().getRatings() + "\n");
+			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer \n for weekday is : " 
+									+ entry.getValue().getRegularWeekday() + " \n and for weekend is : " + entry.getValue().getRegularWeekEnd());
+			System.out.println("Ratings : "+ entry.getValue().getRatings());
+			System.out.println("For Rewards customers: \n for Weekdays is : "+ entry.getValue().getRewardWeekDay() + 
+					"\n and for weekend is : "+ entry.getValue().getRewardWeekEnd());
 			System.out.println();
 		}
 	}
