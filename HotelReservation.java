@@ -46,7 +46,7 @@ public class HotelReservation {
         lakeWoodCost = (numDays[0] * hotelMap.get("Lakewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Lakewood").getRegularWeekEnd());
         bridgeWoodCost = (numDays[0] * hotelMap.get("Bridgewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Bridgewood").getRegularWeekEnd());
         ridgeWoodCost = (numDays[0] * hotelMap.get("Ridgewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Ridgewood").getRegularWeekEnd());
-        int minCost = Math.min(lakeWoodCost, Math.min(bridgeWoodCost, ridgeWoodCost));
+        int minCost = Math.min(lakeWoodCost, Math.min(bridgeWoodCost, ridgeWoodCost));   
         if (minCost == lakeWoodCost) 
         	cheapestHotel = "Lakewood";
         if (minCost == bridgeWoodCost) 
@@ -66,7 +66,7 @@ public class HotelReservation {
 		LocalDate date1 = LocalDate.parse(fromDate, dtf);
 		LocalDate date2 = LocalDate.parse(toDate, dtf);
 		int numOfWeekDays = 0;
-		int numOfWeekEnds = 0;
+		int numOfWeekEnds = 1;
 		int[] numOfDays = new int[2];
 		for (LocalDate date = date1; date.isBefore(date2); date = date.plusDays(1)) {
 			DayOfWeek day = DayOfWeek.of(date.get(ChronoField.DAY_OF_WEEK));
@@ -82,10 +82,10 @@ public class HotelReservation {
 				break;
 			}
 		}
-		if (numOfWeekEnds >= 1 && numOfWeekDays <= 1)
-			numOfWeekEnds++;
-		if(numOfWeekDays >= 1 && numOfWeekEnds <= 1)
-			numOfWeekDays++;
+		//if (numOfWeekEnds >= 1 && numOfWeekDays == 1)
+			//numOfWeekEnds++;
+		//if(numOfWeekDays >= 1 && numOfWeekEnds <= 1)
+			//numOfWeekDays++;
 		numOfDays[0] = numOfWeekDays;
 		numOfDays[1] = numOfWeekEnds;
 		return numOfDays;
