@@ -14,9 +14,9 @@ public class Hotel {
 		this.name = name;
 		this.regularWeekday = regularWeekday;
 		this.regularWeekEnd = regularWeekEnd;
+		this.ratings = ratings;
 		this.rewardWeekDay = rewardWeekDay;
 		this.rewardWeekEnd = rewardWeekEnd;
-		this.ratings = ratings;
 	}
 
 	public String getName() {
@@ -48,11 +48,11 @@ public class Hotel {
 	}
 
 	public void setRatings(int ratings) {
-		this.regularWeekEnd = ratings;
+		this.ratings = ratings;
 	}
 	
 	public int getRewardWeekDay() {
-		return regularWeekEnd;
+		return rewardWeekDay;
 	}
 
 	public void setRewardWeekDay(int rewardWeekDay) {
@@ -60,7 +60,7 @@ public class Hotel {
 	}
 	
 	public int getRewardWeekEnd() {
-		return regularWeekEnd;
+		return rewardWeekEnd;
 	}
 
 	public void setRewardWeekEnd(int rewardWeekEnd) {
