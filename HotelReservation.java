@@ -27,8 +27,8 @@ public class HotelReservation {
 	 * @param name
 	 * @param regularWeekday
 	 */
-	public void addHotel(String name, int regularWeekday, int regularWeekEnd, int ratings) {
-		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd, ratings);
+	public void addHotel(String name, int regularWeekday, int regularWeekEnd, int ratings, int rewardWeekDay, int rewardWeekEnd) {
+		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd, ratings,rewardWeekDay, rewardWeekEnd);
 		hotelMap.put(name, hotel);
 		hotelList.add(hotel);
 	}
@@ -55,6 +55,7 @@ public class HotelReservation {
 		HashMap<Hotel,Integer> hotelMap = new HashMap<Hotel,Integer>();
 		HashMap<Hotel,Integer> ratingMap = new HashMap<Hotel,Integer>();
 		for(Hotel hotel : hotelList) {
+			
 			int totalRate = hotel.getRegularWeekday() * totalWeekDays + hotel.getRegularWeekEnd() * totalWeekEndDays;
 			hotelMap.put(hotel, totalRate);
 			ratingMap.put(hotel, hotel.getRatings());

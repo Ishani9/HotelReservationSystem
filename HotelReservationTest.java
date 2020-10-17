@@ -12,9 +12,9 @@ public class HotelReservationTest {
 	@Test
 	public void whenNewHotelAdded_shouldReturn_Size() {
 		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 110, 90, 3);
-		hotelReservation.addHotel("Bridgewood", 160, 60, 4);
-		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
+		hotelReservation.addHotel("Bridgewood", 160, 60, 4, 110, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
 
 		hotelReservation.printHotels();
 		Integer size = 3;
@@ -31,18 +31,18 @@ public class HotelReservationTest {
 	@Test
 	public void whenCheapestMethodCalled_shouldReturn_nameOfCheapestHotel() {
 		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 110, 90, 3);
-		hotelReservation.addHotel("Bridgewood", 160, 60, 4);
-		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
+		hotelReservation.addHotel("Bridgewood", 160, 60, 4, 110, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
 		assertEquals("Lakewood", hotelReservation.cheapestHotel("09 Sep 2020", "10 Sep 2020"));
 	}
 	
 	@Test
 	public void whenCheapestMethodCalled2_shouldReturn_nameOfCheapestHotel() {
 		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 110, 90, 3);
-		hotelReservation.addHotel("Bridgewood", 160, 60, 4);
-		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
+		hotelReservation.addHotel("Bridgewood", 160, 60, 4, 110, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
 		assertEquals("Lakewood", hotelReservation.cheapestHotel("10 Sep 2020", "22 Sep 2020"));
 	}
 	
@@ -54,9 +54,9 @@ public class HotelReservationTest {
 	@Test
 	public void whenCheapestMethodWithWeekdayAndWeekendCalled_shouldReturn_nameOfCheapestHotels() {
 		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 110, 90, 3);
-		hotelReservation.addHotel("Bridgewood", 160, 40, 4);
-		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
+		hotelReservation.addHotel("Bridgewood", 160, 40, 4, 110, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
 		
 		assertEquals("Bridgewood", hotelReservation.cheapestHotel("11 Sep 2020", "13 Sep 2020"));
 	}
@@ -69,10 +69,10 @@ public class HotelReservationTest {
 	@Test
 	public void whenNewRatingAdded_shouldReturn_rating() {
 		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 110, 90, 3);
-		hotelReservation.addHotel("Bridgewood", 160, 60, 4);
-		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
-
+		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
+		hotelReservation.addHotel("Bridgewood", 160, 60, 4, 110, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
+		
 		Integer rating = 3;
 		assertEquals(rating, hotelReservation.rating("Lakewood"));
 		Integer rating2 = 4;
@@ -89,9 +89,9 @@ public class HotelReservationTest {
 	@Test
 	public void whenCheapestMethodCalled_shouldReturn_nameOfCheapestHotelsOfHigherRating() {
 		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 110, 90, 3);
-		hotelReservation.addHotel("Bridgewood", 160, 40, 4);
-		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
+		hotelReservation.addHotel("Bridgewood", 160, 40, 4, 110, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
 		
 		assertEquals("Bridgewood", hotelReservation.cheapestHotel("11 Sep 2020", "12 Sep 2020"));
 	}
@@ -103,9 +103,9 @@ public class HotelReservationTest {
 	@Test
 	public void whenBestRatedHotelCalled_shouldReturn_bestRatedHotel() {
 		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 110, 90, 3);
-		hotelReservation.addHotel("Bridgewood", 160, 40, 4);
-		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
+		hotelReservation.addHotel("Bridgewood", 160, 40, 4, 110, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
 		
 		assertEquals("Ridgewood", hotelReservation.findbestRatedHotel("11 Sep 2020", "12 Sep 2020"));
 	}
