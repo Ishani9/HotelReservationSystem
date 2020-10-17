@@ -1,17 +1,21 @@
 package com.bl.assignment;
 
 import java.time.DayOfWeek;
+import java.awt.List;  
+//import java.util.*;  
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 @SuppressWarnings({ "unused" })
 public class HotelReservation {
 	
 	public static HashMap<String, Hotel> hotelMap;
+	public ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
 
 	public HotelReservation() {
 		hotelMap = new HashMap<String, Hotel>();
@@ -26,6 +30,7 @@ public class HotelReservation {
 	public void addHotel(String name, int regularWeekday, int regularWeekEnd, int ratings) {
 		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd, ratings);
 		hotelMap.put(name, hotel);
+		hotelList.add(hotel);
 	}
 	
 	/**
@@ -38,23 +43,37 @@ public class HotelReservation {
 	public String cheapestHotel(String fromDate, String toDate) {
 		
 		int[] numDays = numberOfDays( fromDate, toDate);
-		int lakeWoodCost = 0;
-        int bridgeWoodCost = 0;
-        int ridgeWoodCost = 0;
-        String cheapestHotel = null;
-        
-        lakeWoodCost = (numDays[0] * hotelMap.get("Lakewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Lakewood").getRegularWeekEnd());
-        bridgeWoodCost = (numDays[0] * hotelMap.get("Bridgewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Bridgewood").getRegularWeekEnd());
-        ridgeWoodCost = (numDays[0] * hotelMap.get("Ridgewood").getRegularWeekday()) + (numDays[1] * hotelMap.get("Ridgewood").getRegularWeekEnd());
-        int minCost = Math.min(lakeWoodCost, Math.min(bridgeWoodCost, ridgeWoodCost));   
-        if (minCost == lakeWoodCost) 
-        	cheapestHotel = "Lakewood";
-        if (minCost == bridgeWoodCost) 
-        	cheapestHotel = "Bridgewood";   			
-        if (minCost == ridgeWoodCost) 
-        	cheapestHotel = "Ridgewood";
-		System.out.println("Cheapest Hotel : " + cheapestHotel + "\nTotal Rent : " + minCost);
-		System.out.println();
+ 		String cheapestHotel = findCheapest(numDays[0] , numDays[1]);
+ 		System.out.println();
+		return cheapestHotel;
+	}
+	
+	public String findCheapest(int totalWeekDays, int totalWeekEndDays) {
+		int minimumRate = 0;
+		String cheapestHotel = "hello";
+		ArrayList<Hotel> cheapestHotels = new ArrayList<Hotel>();
+		HashMap<Hotel,Integer> hotelMap = new HashMap<Hotel,Integer>();
+		HashMap<Hotel,Integer> ratingMap = new HashMap<Hotel,Integer>();
+		for(Hotel hotel : hotelList) {
+			int totalRate = hotel.getRegularWeekday() * totalWeekDays + hotel.getRegularWeekEnd() * totalWeekEndDays;
+			hotelMap.put(hotel, totalRate);
+			ratingMap.put(hotel, hotel.getRatings());
+		}
+		minimumRate = Collections.min(hotelMap.values());
+		
+		for(HashMap.Entry<Hotel, Integer> entry : hotelMap.entrySet()) {
+			if(entry.getValue() == minimumRate) {
+				cheapestHotels.add(entry.getKey());
+			}
+		}
+		int maximumRating = Collections.max(ratingMap.values());
+		for(Hotel hotel : cheapestHotels) {
+			if(hotel.getRatings() != maximumRating) {
+				maximumRating--;			
+			}	
+		System.out.println("Hotel : " + hotel.getName() + " Ratings : " + hotel.getRatings() +" Total Rate : " + minimumRate);
+		cheapestHotel = hotel.getName();
+		}
 		
 		return cheapestHotel;
 	}
@@ -66,9 +85,9 @@ public class HotelReservation {
 		LocalDate date1 = LocalDate.parse(fromDate, dtf);
 		LocalDate date2 = LocalDate.parse(toDate, dtf);
 		int numOfWeekDays = 0;
-		int numOfWeekEnds = 1;
+		int numOfWeekEnds = 0;
 		int[] numOfDays = new int[2];
-		for (LocalDate date = date1; date.isBefore(date2); date = date.plusDays(1)) {
+		for (LocalDate date = date1; date.isBefore(date2.plusDays(1)); date = date.plusDays(1)) {
 			DayOfWeek day = DayOfWeek.of(date.get(ChronoField.DAY_OF_WEEK));
 			switch (day) {
 			case SATURDAY:
@@ -82,10 +101,7 @@ public class HotelReservation {
 				break;
 			}
 		}
-		//if (numOfWeekEnds >= 1 && numOfWeekDays == 1)
-			//numOfWeekEnds++;
-		//if(numOfWeekDays >= 1 && numOfWeekEnds <= 1)
-			//numOfWeekDays++;
+		
 		numOfDays[0] = numOfWeekDays;
 		numOfDays[1] = numOfWeekEnds;
 		return numOfDays;
