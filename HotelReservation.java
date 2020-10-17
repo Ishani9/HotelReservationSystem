@@ -1,8 +1,7 @@
 package com.bl.assignment;
 
 import java.time.DayOfWeek;
-import java.awt.List;  
-//import java.util.*;  
+import java.awt.List;   
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,10 +26,17 @@ public class HotelReservation {
 	 * @param name
 	 * @param regularWeekday
 	 */
-	public void addHotel(String name, int regularWeekday, int regularWeekEnd, int ratings, int rewardWeekDay, int rewardWeekEnd) {
-		Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd, ratings,rewardWeekDay, rewardWeekEnd);
-		hotelMap.put(name, hotel);
-		hotelList.add(hotel);
+	public void addHotel(String name, int regularWeekday, int regularWeekEnd, int ratings,
+			int rewardWeekDay, int rewardWeekEnd, String customer) throws InvalidEntryException{
+		if(customer.equalsIgnoreCase("regular") || customer.equalsIgnoreCase("reward")) {
+			Hotel hotel = new Hotel(name, regularWeekday, regularWeekEnd, ratings,
+					rewardWeekDay, rewardWeekEnd);
+			hotelMap.put(name, hotel);
+			hotelList.add(hotel);
+		}
+		else {
+			throw new InvalidEntryException("Invalid Customer Type. Please enter a valid customer type");
+		}
 	}
 	
 	/**
@@ -40,11 +46,18 @@ public class HotelReservation {
 	 * @param toDate
 	 * @return
 	 */
-	public String cheapestHotel(String fromDate, String toDate) {
+	public String cheapestHotel(String customer, String fromDate, String toDate) {
 		
 		int[] numDays = numberOfDays( fromDate, toDate);
- 		String cheapestHotel = findCheapest(numDays[0] , numDays[1]);
- 		System.out.println();
+		String cheapestHotel = null;
+		if(customer.equalsIgnoreCase("regular")) {
+	 		cheapestHotel = findCheapest(numDays[0] , numDays[1]);
+	 		System.out.println();
+		}
+		if(customer.equalsIgnoreCase("reward")) {
+			cheapestHotel = findRewardCheapest(numDays[0] , numDays[1]);
+	 		System.out.println();
+		}
 		return cheapestHotel;
 	}
 	
@@ -78,8 +91,6 @@ public class HotelReservation {
 		
 		return cheapestHotel;
 	}
-
-
 	
 	public int[] numberOfDays(String fromDate, String toDate) {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
@@ -136,6 +147,46 @@ public class HotelReservation {
 		int totalRent = weekdayRent + weekendRent;
 		return totalRent;
 	}
+	
+	/**
+	 * UC 10
+	 * 
+	 * @param fromDate
+	 * @param toDate
+	 * @return
+	 */
+	public String findRewardCheapest(int totalWeekDays, int totalWeekEndDays) {
+		int minimumRate2 = 0;
+		String cheapestHotel2 = null;
+		ArrayList<Hotel> cheapestHotels2 = new ArrayList<Hotel>();
+		HashMap<Hotel,Integer> hotelMap2 = new HashMap<Hotel,Integer>();
+		HashMap<Hotel,Integer> ratingMap2 = new HashMap<Hotel,Integer>();
+		for(Hotel hotel : hotelList) {
+			
+			int totalRate = hotel.getRewardWeekDay() * totalWeekDays + hotel.getRewardWeekEnd() * totalWeekEndDays;
+			hotelMap2.put(hotel, totalRate);
+			ratingMap2.put(hotel, hotel.getRatings());
+		}
+		minimumRate2 = Collections.min(hotelMap2.values());
+		
+		for(HashMap.Entry<Hotel, Integer> entry : hotelMap2.entrySet()) {
+			if(entry.getValue() == minimumRate2) {
+				cheapestHotels2.add(entry.getKey());
+			}
+		}
+		int maximumRating = Collections.max(ratingMap2.values());
+		for(Hotel hotel : cheapestHotels2) {
+			
+		System.out.println("Hotel : " + hotel.getName() + " Ratings : " + hotel.getRatings() +" Total Rate : " + minimumRate2);
+		cheapestHotel2 = hotel.getName();
+		}
+		
+		return cheapestHotel2;
+	}
+	
+	
+
+
 
 	/**
 	 * PRINT
@@ -144,7 +195,8 @@ public class HotelReservation {
 	public void printHotels() {
 		for (HashMap.Entry<String, Hotel> entry : hotelMap.entrySet()) {
 			System.out.println("Rate for Hotel " +entry.getKey() + " for regular customer \n for weekday is : " 
-									+ entry.getValue().getRegularWeekday() + " \n and for weekend is : " + entry.getValue().getRegularWeekEnd());
+									+ entry.getValue().getRegularWeekday() + 
+									" \n and for weekend is : " + entry.getValue().getRegularWeekEnd());
 			System.out.println("Ratings : "+ entry.getValue().getRatings());
 			System.out.println("For Rewards customers: \n for Weekdays is : "+ entry.getValue().getRewardWeekDay() + 
 					"\n and for weekend is : "+ entry.getValue().getRewardWeekEnd());
