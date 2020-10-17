@@ -95,6 +95,21 @@ public class HotelReservationTest {
 		
 		assertEquals("Bridgewood", hotelReservation.cheapestHotel("11 Sep 2020", "12 Sep 2020"));
 	}
+	
+	/**
+	 * UC 7
+	 * 
+	 */
+	@Test
+	public void whenBestRatedHotelCalled_shouldReturn_bestRatedHotel() {
+		HotelReservation hotelReservation = new HotelReservation();
+		hotelReservation.addHotel("Lakewood", 110, 90, 3);
+		hotelReservation.addHotel("Bridgewood", 160, 40, 4);
+		hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+		
+		assertEquals("Ridgewood", hotelReservation.findbestRatedHotel("11 Sep 2020", "12 Sep 2020"));
+	}
+	
 
 	
 }
