@@ -50,7 +50,7 @@ public class HotelReservation {
 	
 	public String findCheapest(int totalWeekDays, int totalWeekEndDays) {
 		int minimumRate = 0;
-		String cheapestHotel = "hello";
+		String cheapestHotel = null;
 		ArrayList<Hotel> cheapestHotels = new ArrayList<Hotel>();
 		HashMap<Hotel,Integer> hotelMap = new HashMap<Hotel,Integer>();
 		HashMap<Hotel,Integer> ratingMap = new HashMap<Hotel,Integer>();
@@ -106,7 +106,35 @@ public class HotelReservation {
 		numOfDays[1] = numOfWeekEnds;
 		return numOfDays;
 	}
-
+	
+	/**
+	 * UC 7
+	 * 
+	 */
+	
+	public String findbestRatedHotel(String fromDate, String toDate) {
+		int rating = 0;
+		int rent = 0;
+		String bestRatedHotel = "";
+		for (HashMap.Entry<String, Hotel> entry : hotelMap.entrySet()) {
+			if (entry.getValue().getRatings() > rating) {
+				rating = entry.getValue().getRatings();
+				bestRatedHotel = entry.getKey();
+				rent = calculateRent(fromDate, toDate, entry.getValue().getRegularWeekday(),
+						entry.getValue().getRegularWeekEnd());
+			}
+		}
+		System.out.println("Best rated hotel : " + bestRatedHotel + ", Rent : " + rent);
+		return bestRatedHotel;
+	}
+	
+	public int calculateRent(String fromDate, String toDate, int weekdayRate, int weekendRate) {
+		int[] numOfDays = numberOfDays(fromDate, toDate);
+		int weekdayRent = weekdayRate * numOfDays[0];
+		int weekendRent = weekendRate * numOfDays[1];
+		int totalRent = weekdayRent + weekendRent;
+		return totalRent;
+	}
 
 	/**
 	 * PRINT
